@@ -1,7 +1,7 @@
 <?php 
 /**
- * simplified class aws s3 sdk
- * by fnx
+ * simplified class aws s3 sdk on 24-jan-17
+ * by fenix
  */
 
 
@@ -230,18 +230,4 @@ class S3API{
 	}
 
 }
-
-$ss = new S3API;
-$ss->download('ferdir/fertest.xls','bucketname','I');// return error message when $ss->error is true
-
-// var_dump($ss->error); --> false on error
-// print_r($ss->listbuckets());
-// print_r($ss->listfiles('bucketname'));
-// print_r($ss->copy(__DIR__."/localdir/fertest.xls","/fol2/copied.xls",'bucketname'));
-// print_r($ss->geturl('fol1/test.xls','bucketname'));
-// print_r($ss->copyremote('fol1/test.txt','fol2/test.txt','bucket1','bucket2'));
-// print_r($ss->savetolocal("localdir/fertest.xls",__DIR__."/downfile.xls","bucketname"));
-// print_r($ss->download('/fol1/test.xls','bucketname','D'));
-// print_r($ss->delete('/fol1/test.xls','bucketname'));
-// print_r($ss->deletemultiple([['key'=>'/fol1/f1.txt'],['key'=>'/fol2/f2.txt']],'bucketname'));
 ?>
