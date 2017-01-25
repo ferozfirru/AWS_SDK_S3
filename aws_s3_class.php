@@ -162,6 +162,34 @@ class S3API{
 		}
 	}
 
+
+	/**
+	 * [uploadDIR upload entire directory from local to S3 bucket]
+	 * @param  [string] $file   [local dir path]
+	 * @param  [string] $bucket [bucketname]
+	 * @return [object]         [transfer object]
+	 */
+	function uploadDIR($file,$bucket){
+		$source = $file;
+		$dest = 's3://'.$bucket.'/testfol';
+		$manager = new \Aws\S3\Transfer($this->s3init, $source, $dest);
+		return $manager->transfer();
+	}
+
+
+	/**
+	 * [DownloadDIR Download entire directory to S3 from local]
+	 * @param  [string] $file   [local dir path]
+	 * @param  [string] $bucket [bucketname]
+	 * @return [object]         [transfer object]
+	 */
+	function DownloadDIR($file,$bucket){
+		$source = 's3://'.$bucket.'/testfol';
+		$dest = $file;
+		$manager = new \Aws\S3\Transfer($this->s3init, $source, $dest);
+		return $manager->transfer();
+	}
+
 	/**
 	 * [delete description]
 	 * @param  [string] $file   [filepath in bucket, ex: s3fol1/s3fol2/uptest.xls]
