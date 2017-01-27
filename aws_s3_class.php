@@ -257,16 +257,20 @@ class S3API{
 		return $_rtnmime;
 	}
 
+	/**
+	* S3resize
+	* if the url given to this function is like this 'img/800x600/foodimage/test.jpg' if images exists then it'll show the image in in-line but if thumbimage not found
+	* then it will check in foodimage/test.jpg for original image and resizes it and will store the resized image again in S3 as img/800x600/foodimage/test.jpg
+	*/
 
-
-	function S3call($url){
+	function S3resize($url){
 		$orgurl = $url;
 		$re = '/(img\/([\d]+|[\d]+x[\d]+)\/)(.*.(?:\.jpg|\.jpeg|\.bmp|\.png|\.gif))/i';
 		$url = trim(str_replace($_SERVER['HTTP_HOST'],'', $url),'/');
 
 		if(!preg_match($re,trim($url,'/'),$m))
 		{
-			$this->error = 'Path should be like img/wxh/folder/../filename.ext'; // img/800x600/vimages/test.jpg
+			$this->error = 'Path should be like img/wxh/folder/../filename.ext'; // img/800x600/images/test.jpg
 			return false;
 		}
 
@@ -277,6 +281,7 @@ class S3API{
 		$_finarray['org'] = $m[0];
 		$this->resizeIMG($_finarray);
 	}
+
 
 	function resizeIMG($filearray){
 
