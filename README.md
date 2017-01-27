@@ -16,7 +16,7 @@ An S3 operations Class for AWS PHP SDK by Fenix
     $ss->savetolocal("localdir/fertest.xls",__DIR__."/downfile.xls","bucketname");
     $ss->download('/fol1/test.xls','bucketname','D');
     $ss->delete('/fol1/test.xls','bucketname');
-    $ss->deletemultiple([['key'=>'/fol1/f1.txt'],['key'=>'/fol2/f2.txt']],'bucketname');
+    $ss->deletemultiple(['/fol1/f1.txt','/fol2/f2.txt',...],'bucketname');
     
     $ss->error; // returns FALSE on error
 ```

@@ -216,10 +216,22 @@ class S3API{
 	function deletemultiple($filearray,$bucket){
 		try{
 			$this->error = false;
-			return $this->s3init->deleteObjects(['Bucket'=>$bucket,'Objects'=>[$filearray]]);
+			$this->errorcode = '';
+			if(!is_array($filearray))
+			{
+				$this->error = true;
+				$this->errorcode = $e->getstatusCode();
+				return "Param should be a Array type";
+			}else{
+		foreach($filearray as $_afil){
+			$__filearray[] = ['Key'=>$_afil];
 		}
-		catch(Exception $e){
+			}
+			return $this->s3init->deleteObjects(['Bucket'=>$this->bucket,'Objects'=>$__filearray]);
+		}
+		catch(S3 $e){
 			$this->error = true;
+			$this->errorcode = $e->getstatusCode();
 			return $e->getMessage();
 		}
 	}
