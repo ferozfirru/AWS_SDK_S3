@@ -223,9 +223,9 @@ class S3API{
 				$this->errorcode = $e->getstatusCode();
 				return "Param should be a Array type";
 			}else{
-		foreach($filearray as $_afil){
-			$__filearray[] = ['Key'=>$_afil];
-		}
+				foreach($filearray as $_afil){
+					$__filearray[] = ['Key'=>$_afil];
+				}
 			}
 			return $this->s3init->deleteObjects(['Bucket'=>$this->bucket,'Objects'=>$__filearray]);
 		}
