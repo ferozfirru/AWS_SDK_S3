@@ -257,5 +257,72 @@ class S3API{
 		return $_rtnmime;
 	}
 
+
+
+	function S3call($url){
+		$orgurl = $url;
+		$re = '/(img\/([\d]+|[\d]+x[\d]+)\/)(.*.(?:\.jpg|\.jpeg|\.bmp|\.png|\.gif))/i';
+		$url = trim(str_replace($_SERVER['HTTP_HOST'],'', $url),'/');
+
+		if(!preg_match($re,trim($url,'/'),$m))
+		{
+			$this->error = 'Path should be like img/wxh/folder/../filename.ext'; // img/800x600/vimages/test.jpg
+			return false;
+		}
+
+		$wh = explode('x', $m[2]);
+		$_finarray['w'] = $wh[0];
+		$_finarray['h'] = $wh[1];
+		$_finarray['dir'] = $m[3];
+		$_finarray['org'] = $m[0];
+		$this->resizeIMG($_finarray);
+	}
+
+	function resizeIMG($filearray){
+
+		$_w = $filearray['w'];
+		$_h = $filearray['h'];
+		$_s3dir = $filearray['dir'];
+		$_ORGimgdr = pathinfo($_s3dir,PATHINFO_DIRNAME);
+		$_ORGimgfn = pathinfo($_s3dir,PATHINFO_BASENAME);
+		try{
+			 $_rs = $this->download($filearray['org'],'I');
+			 if($this->errorcode == 404)
+			 {
+				$_ext = pathinfo($_s3dir,PATHINFO_EXTENSION);
+				$_fname = uniqid().'.'.$_ext;
+				$_saved = uniqid().'.'.$_ext;
+				$r = $this->savetolocal($_s3dir,sys_get_temp_dir().'/'.$_fname);
+
+				$phpThumb = new phpThumb();
+				$phpThumb->config_allow_src_above_docroot = true;
+				$phpThumb->setSourceFilename(sys_get_temp_dir().'/'.$_fname);
+   				$phpThumb->setParameter('w', $_w);
+   				$phpThumb->setParameter('h', $_h);
+
+   				$out_fn = $this->tmpdir.$_saved;
+
+			    if ($phpThumb->GenerateThumbnail()){
+
+			        if ($phpThumb->RenderToFile($out_fn)){
+			        	$_rscpy = $this->copy($out_fn,'img'.DIRECTORY_SEPARATOR.$_w.'x'.$_h.DIRECTORY_SEPARATOR.$_s3dir);
+			        	if($_rscpy['@metadata']['statusCode'] == 200 && $_rscpy['ObjectURL'] <> '')
+			        	{
+			        		$Fmime = $this->getmimetype($_fname);
+			        		header("Content-Type: {$Fmime}");
+							header("Content-Disposition: inline; filename='".$_fname."'");
+							ob_clean();
+							flush();
+							readfile($out_fn);
+							return;
+			        	}
+			        }
+			    }
+			}
+		}
+
+
+
+
 }
 ?>
