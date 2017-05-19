@@ -1,12 +1,12 @@
 # AWS_SDK_S3
 An S3 operations Class for AWS PHP SDK by Fenix
 
-#Create class object
+### Create class object
 
 ```PHP
     $ss = new S3API;
 ```
-###function calls
+### function calls
 ```PHP
     $ss->listbuckets(); 
     $ss->listfiles('bucketname');
