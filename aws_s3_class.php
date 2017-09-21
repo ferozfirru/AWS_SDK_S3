@@ -15,7 +15,7 @@ class S3API{
 
 		$this->s3init = new S3Client([
 		    'version' => 'latest',
-		    'region'  => 'ap-southeast-1',
+		    'region'  => 's3region',
 		    'credentials' => array(
 		        'key'    => '',
 		        'secret' => '',
