@@ -9,7 +9,7 @@ An S3 operations Class for AWS PHP SDK by Fenix
 ### function calls
 ```PHP
     $ss->listbuckets(); // list all Buckets
-    $ss->listfiles('bucketname'); // list all files in given s3 bucket
+    $ss->listfiles(); // list all files of s3 bucket
     $ss->copy(__DIR__."/localdir/fertest.xls","/fol2/copied.xls",'bucketname'); // copy local file to given S3 bucket
     $ss->geturl('s3fol1/test.xls','bucketname'); // get file downloadble url for given s3 file name
     $ss->copyremote('fol1/test.txt','fol2/test.txt','bucket1','bucket2'); // copy remote s3 files from one bucket to another
