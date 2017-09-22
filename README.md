@@ -18,5 +18,6 @@ An S3 operations Class for AWS PHP SDK by Fenix
     $ss->delete('/fol1/test.xls'); // remove give file from bucket
     $ss->deletemultiple(['/fol1/f1.txt','/fol2/f2.txt',...]); //delete multiple files from bucket
     $ss->getlocallist('/localdir/'); // get all files in given local path
+    $ss->fileinfo('s3folder/file.txt'); // This will return file Meta data like , file type,size,creation time,direct url
     $ss->error; // returns FALSE on error
 ```
