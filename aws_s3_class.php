@@ -226,6 +226,25 @@ class S3API{
 		}
 	}
 
+	/**
+	* [fileinfo To get the Meta data of the given S3 file]
+	* @param [string] $s3file [filepath in bucket, ex: s3fol1/s3fol2/uptest.xls]
+	* @return [s3object]
+	*/
+	function fileinfo($s3file)
+	{
+		try{
+			$this->error = false;
+			$this->errorcode = '';
+			return $this->s3init->headObject(["Bucket"=>$this->bucket,"Key"=>$s3file])['@metadata']['headers'];
+		}
+		catch(S3 $e){
+			$this->error = true;
+			$this->errorcode = $e->getstatusCode();
+			return $e->getMessage();
+		}
+	}
+
 	function resizeIMG($filearray){
 		$_w = $filearray['w'];
 		$_h = $filearray['h'];
